@@ -1,16 +1,17 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
 using System;
-using System.IO;
 using BrowserDriver;
+using Utilities;
 
 namespace CH_IB_Testing
 {
 
     public class Tests
     {
+
+        Utils utils; 
         Driver driver;
         [SetUp]
         public void start_Browser()
@@ -19,11 +20,14 @@ namespace CH_IB_Testing
             String test_url = "https://ib-uat.unayo.com/";
 
             driver = new Driver();
-            driver.browser = Driver.Browser.Chrome;
-            //driver.browser = Driver.Browser.Firefox;
+            //driver.browser = Driver.Browser.Chrome;
+            driver.browser = Driver.Browser.Firefox;
 
             driver.Init_Browser();
             driver.Goto(test_url);
+
+            utils = new Utils(driver);
+
         }
 
 
@@ -35,9 +39,11 @@ namespace CH_IB_Testing
         [Test]
         public void testLoginLogout()
         {
-            WebDriverWait wait = new WebDriverWait(driver.webdriver, TimeSpan.FromSeconds(40));
-            IWebElement LoginButton = wait.Until(ExpectedConditions.ElementExists(By.XPath("//a[contains(text(),'Login')]")));
-            LoginButton.Click();
+            //WebDriverWait wait = new WebDriverWait(driver.webdriver, TimeSpan.FromSeconds(40));
+            //IWebElement LoginButton = wait.Until(ExpectedConditions.ElementExists(By.XPath("//a[contains(text(),'Login')]")));
+            //LoginButton.Click();
+
+            utils.Login();
 
             SelectElement oSelect = new SelectElement(driver.webdriver.FindElement(By.Id("MobileInstanceId")));
             oSelect.SelectByValue("3eeb9|BW");
